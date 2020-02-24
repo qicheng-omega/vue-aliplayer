@@ -3,7 +3,7 @@ module.exports = {
   entry: 'example/index.js',
   dist: 'dist-example',
   homepage: '/',
-  port: 5000,
+  port: 3087,
   html: {
     title: 'Vue-Aliplayer'
   }
