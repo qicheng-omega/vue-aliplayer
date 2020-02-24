@@ -22,12 +22,12 @@
     "vue",
     "aliplayer"
   ],
-  "author": "linfeng (237242115@qq.com)",
+  "author": "waitting@twqicheng.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/slacrey/vue-aliplayer/issues"
+    "url": "https://github.com/qicheng-omega/vue-aliplayer/issues"
   },
-  "homepage": "https://github.com/slacrey/vue-aliplayer#readme",
+  "homepage": "https://github.com/qicheng-omega/vue-aliplayer#readme",
   "devDependencies": {
     "vbuild": "^6.0.0"
   },
