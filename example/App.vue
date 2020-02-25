@@ -3,7 +3,20 @@
     <h1>Vue-AliPlayer</h1>
     <h2>A Vue 2.x component of <a href="https://github.com/slacrey/vue-aliplayer" target="_blank">Aliplayer</a></h2>
     <github-badge slug="slacrey/vue-aliplayer" />
-    <ali-player @play="played" :source="aplayer.source" :autoplay="true" :vid="aplayer.vid" :playauth="aplayer.playauth" ref="player"></ali-player>
+    <ali-player :source="aplayer.source" :autoplay="true" :x5_fullscreen="true" :vid="aplayer.vid" :playauth="aplayer.playauth" ref="player"
+                @play="playerEmit($event, 'play')"
+                @pause="playerEmit($event, 'pause')"
+                @replay="playerEmit($event, 'replay')"
+                @ended="playerEmit($event, 'ended')"
+                @ready="playerEmit($event, 'ready')"
+                @liveStreamStop="playerEmit($event, 'liveStreamStop')"
+                @waiting="playerEmit($event, 'waiting')"
+                @error="playerEmit($event, 'error')"
+                @startSeek="playerEmit($event, 'startSeek')"
+                @requestFullScreen="playerEmit($event, 'requestFullScreen')"
+                @cancelFullScreen="playerEmit($event, 'cancelFullScreen')"
+                @completeSeek="playerEmit($event, 'completeSeek')"
+    ></ali-player>
     <div style="margin-top:20px;">
       <button @click="play">播放</button>
       <button @click="pause">暂停</button>
@@ -12,6 +25,7 @@
       <button @click="addition">增音</button>
       <button @click="subtraction">減音</button>
     </div>
+    <button @click="tttt = !tttt">減音</button>
   </div>
 </template>
 
@@ -22,7 +36,21 @@
   export default {
     data() {
       return {
+        tttt :false,
+        streamMap:{
+          flvlld: "http://testplay.30ro.com/testapp/3c1771_1100_lld.flv?auth_key=1582606124-0-0-b6d4d0229ef22736dc5fa375781c4e28",
+          lld: "rtmp://testplay.30ro.com/testapp/3c1771_1100_lld?auth_key=1582606124-0-0-6953af574a9b76b7c801484889f261ae",
+          rtmpUrl: "rtmp://testplay.30ro.com/testapp/3c1771_1100?auth_key=1582606124-0-0-812aa404fe0b9237effce42e2db45cb1",
+          flvUrl: "http://testplay.30ro.com/testapp/3c1771_1100.flv?auth_key=1582606124-0-0-9c93b3de16f63cfb55a2a74d034b5253",
+          lhd: "rtmp://testplay.30ro.com/testapp/3c1771_1100_lhd?auth_key=1582606124-0-0-ede2db96a0c8c0fc86f79a65ec25d8b3",
+          lud: "rtmp://testplay.30ro.com/testapp/3c1771_1100_lud?auth_key=1582606124-0-0-c07621dc0029f1e1514ea6bdb0fac96a",
+          flvlsd: "http://testplay.30ro.com/testapp/3c1771_1100_lsd.flv?auth_key=1582606124-0-0-1d36ae07ebf03a7e2057a034aabc2379",
+          lsd: "rtmp://testplay.30ro.com/testapp/3c1771_1100_lsd?auth_key=1582606124-0-0-aaa3fde922e947be2a310e3b25b465d8",
+          flvlud: "http://testplay.30ro.com/testapp/3c1771_1100_lud.flv?auth_key=1582606124-0-0-bf5621718f34eaf94b87df1bbd490bdc",
+          flvlhd: "http://testplay.30ro.com/testapp/3c1771_1100_lhd.flv?auth_key=1582606124-0-0-1d6f59ce1d40b77263e0b3a53cec2744"
+        },
         aplayer: {
+          // source: this.streamMap.flvlsd,
           source: "http://static.smartisanos.cn/common/video/t1-ui.mp4",
           vid: "8db6e5c7ff5f4257b41e2487ec61d592",
           playauth:
@@ -32,9 +60,15 @@
         volume: 1
       };
     },
+    mounted() {
+      this.aplayer.source = this.streamMap.flvlsd;
+      console.log('this.source', this.source);
+      const player = this.$refs.player;
+      player && player.reloadPlayer();
+    },
     methods: {
-      played() {
-        console.log("play callback");
+      playerEmit(event, str) {
+          console.log('@playerEmit event::', str, event);
       },
       play() {
         const player = this.$refs.player.instance;
@@ -49,7 +83,7 @@
         player && player.replay();
       },
       convert() {
-        this.aplayer.source = 'http://static.smartisanos.cn/common/video/t1-ui.mp4';
+        this.aplayer.source = this.streamMap.flvlhd
         const player = this.$refs.player;
         player && player.reloadPlayer();
       },
